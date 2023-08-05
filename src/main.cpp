@@ -5,18 +5,19 @@
 
 #include "constants.hpp"
 #include "RenderWindow.hpp"
-
+#include "sprite.hpp"
+#include "object.hpp"
 
 void update(float delta_time) {
 	
 }
-void render(RenderWindow& window, SDL_Texture* grassTexture) {
+void render(RenderWindow& window, Object& object) {
 	window.clear();
-	window.render(grassTexture);
+	window.render(object);
 	window.display();
 }
 
-int main(int argc, char* argv[]) {
+int fmain(int argc, char* argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO) > 0) {
 		std::cout << "HEY.. STL_Init HAS FAILED. STL_ERROR: " << SDL_GetError() << std::endl;
 	}
@@ -24,11 +25,15 @@ int main(int argc, char* argv[]) {
 		std::cout << "STL_init has failed. Error: " << SDL_GetError() << std::endl;
 	
 	RenderWindow window("GAME v1.0", 1280, 720);
+	
+	window.loadTexture("res/gfx/ground_grass_1.png");
+	window.createSprite("grass", 0, 0, 0, 32, 32);
 
-	std::vector<SDL_Texture*> textures;
-	SDL_Texture* grassTexture = window.loadTexture("res/gfx/ground_grass_1.png");
+	Object block;
+	block.setDimensions(32, 32);
+	block.setPosition(0,0);
+	block.setSprite("grass");
 
-	textures.push_back(grassTexture);
 	bool gameRunning = true;
 
 	SDL_Event event;
@@ -58,8 +63,8 @@ int main(int argc, char* argv[]) {
 		}
 
 		update(delta_time);
-		render(window, grassTexture);
-
+		block.update();
+		render(window, block);
 		
 
 	}

@@ -17,7 +17,7 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-SDL_Texture* RenderWindow::loadTexture(const char* p_filePath)
+void RenderWindow::loadTexture(const char* p_filePath)
 {
 	SDL_Texture* texture = NULL;
 	texture = IMG_LoadTexture(renderer, p_filePath);
@@ -25,7 +25,16 @@ SDL_Texture* RenderWindow::loadTexture(const char* p_filePath)
 	if (texture == NULL)
 		std::cout << "Failed to load texture. Error: " << SDL_GetError() << std::endl;
 
-	return texture;
+	textures.push_back(texture);
+}
+void RenderWindow::createSprite(std::string name, int _texture, float _tx, float _ty, float _tw, float _th) {
+	sprites[name] = Sprite();
+	sprites[name].setTexture(_texture, _tx, _ty, _tw, _th);
+}
+
+void RenderWindow::loadResources() {
+	
+
 }
 
 void RenderWindow::cleanUp()
@@ -38,9 +47,10 @@ void RenderWindow::clear()
 	SDL_RenderClear(renderer);
 }
 
-void RenderWindow::render(SDL_Texture* p_tex)
+void RenderWindow::render(Object& object)
 {
-	SDL_RenderCopy(renderer, p_tex, NULL, NULL);
+	Sprite& sprite = sprites[object.getSprite()];
+	SDL_RenderCopy(renderer, textures[sprite.getTextureIndex()], sprite.getTexture(), object.getPosition());
 }
 
 void RenderWindow::display()
