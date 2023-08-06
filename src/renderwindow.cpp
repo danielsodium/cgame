@@ -17,6 +17,14 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
+void RenderWindow::keyUp(int key) {
+	keys[key] = false;
+}
+
+void RenderWindow::keyDown(int key) {
+	keys[key] = true;
+}
+
 void RenderWindow::loadTexture(const char* p_filePath)
 {
 	SDL_Texture* texture = NULL;
@@ -58,6 +66,15 @@ void RenderWindow::cleanUp()
 void RenderWindow::clear()
 {
 	SDL_RenderClear(renderer);
+}
+
+void RenderWindow::updateObjects(float& delta_time) {
+
+	for (Object* object : objects) {
+		if (object->isActive()) {
+			object->update(delta_time, keys);
+		}	
+	}
 }
 
 void RenderWindow::render()

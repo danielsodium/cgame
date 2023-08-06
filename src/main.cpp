@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 #include "constants.hpp"
 #include "RenderWindow.hpp"
@@ -9,9 +10,6 @@
 #include "object.hpp"
 #include "loader.hpp"
 
-void update(float delta_time) {
-	
-}
 void render(RenderWindow& window) {
 	window.clear();
 	window.render();
@@ -35,6 +33,7 @@ int main(int argc, char* argv[]) {
 	loadLevel(window);
 	bool gameRunning = true;
 
+
 	SDL_Event event;
 	int last_frame_time = 0; 
 
@@ -43,6 +42,11 @@ int main(int argc, char* argv[]) {
 		// Get our controls and events
 		while (SDL_PollEvent(&event))
 		{
+			if (event.type == SDL_KEYDOWN) 
+				window.keyDown(event.key.keysym.sym);
+			if (event.type == SDL_KEYUP) 
+				window.keyUp(event.key.keysym.sym);
+
 			if (event.type == SDL_QUIT)
 				gameRunning = false;
 		}
@@ -60,7 +64,7 @@ int main(int argc, char* argv[]) {
 			SDL_Delay(time_to_wait);
 		}
 
-		update(delta_time);
+		window.updateObjects(delta_time);
 		render(window);
 		
 

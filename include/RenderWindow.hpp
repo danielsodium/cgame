@@ -8,11 +8,15 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <iostream>
 
 class RenderWindow 
 {
 public:
 	RenderWindow(const char* p_title, int p_w, int p_h);
+
+	void keyUp(int key);
+	void keyDown(int key);
 
 	void loadTexture(const char* p_filePath);
 	void loadResources();
@@ -21,6 +25,8 @@ public:
 	int addObject(Object* object);
 	Object* getObject(int index);
 
+	void updateObjects(float& delta_time);
+
 	void cleanUp();
 	void clear();
 	void render();
@@ -28,6 +34,9 @@ public:
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+
+	std::unordered_map<int, bool> keys;
+
 	std::vector<SDL_Texture*> textures;
 	std::unordered_map<std::string, Sprite> sprites;
 	std::vector<Object*> objects;
