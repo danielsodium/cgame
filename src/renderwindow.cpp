@@ -37,8 +37,21 @@ void RenderWindow::loadResources() {
 
 }
 
+// Returns index of object in vector
+int RenderWindow::addObject(Object* object) {
+	objects.push_back(object);
+	return objects.size() - 1;
+}
+
+Object* RenderWindow::getObject(int index) {
+	return objects[index];
+}
+
 void RenderWindow::cleanUp()
 {
+	for (size_t i = 0; i < objects.size(); i++) {
+		delete objects[i];
+	}
 	SDL_DestroyWindow(window);
 }
 
@@ -47,10 +60,12 @@ void RenderWindow::clear()
 	SDL_RenderClear(renderer);
 }
 
-void RenderWindow::render(Object& object)
+void RenderWindow::render()
 {
-	Sprite& sprite = sprites[object.getSprite()];
-	SDL_RenderCopy(renderer, textures[sprite.getTextureIndex()], sprite.getTexture(), object.getPosition());
+	for (Object* object : objects) {
+		Sprite& sprite = sprites[object->getSprite()];
+		SDL_RenderCopy(renderer, textures[sprite.getTextureIndex()], sprite.getTexture(), object->getPosition());
+	}
 }
 
 void RenderWindow::display()

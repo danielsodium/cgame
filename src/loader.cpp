@@ -1,7 +1,11 @@
 
-
 #include <iostream>
+#include "loader.hpp"
 
-int main() {
-    std::cout << "Hello world!" << std::endl;
+void loadLevel(RenderWindow& window) {
+    Object* block = new Object();
+    block->setSprite("grass");
+    block->setDimensions(32, 32);
+    block->setPosition(32,32);
+    window.addObject(block);
 }

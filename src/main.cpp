@@ -7,17 +7,18 @@
 #include "RenderWindow.hpp"
 #include "sprite.hpp"
 #include "object.hpp"
+#include "loader.hpp"
 
 void update(float delta_time) {
 	
 }
-void render(RenderWindow& window, Object& object) {
+void render(RenderWindow& window) {
 	window.clear();
-	window.render(object);
+	window.render();
 	window.display();
 }
 
-int fmain(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO) > 0) {
 		std::cout << "HEY.. STL_Init HAS FAILED. STL_ERROR: " << SDL_GetError() << std::endl;
 	}
@@ -26,19 +27,16 @@ int fmain(int argc, char* argv[]) {
 	
 	RenderWindow window("GAME v1.0", 1280, 720);
 	
+	// Loading Textures and Sprites
+
 	window.loadTexture("res/gfx/ground_grass_1.png");
 	window.createSprite("grass", 0, 0, 0, 32, 32);
 
-	Object block;
-	block.setDimensions(32, 32);
-	block.setPosition(0,0);
-	block.setSprite("grass");
-
+	loadLevel(window);
 	bool gameRunning = true;
 
 	SDL_Event event;
 	int last_frame_time = 0; 
-
 
 	while (gameRunning)
 	{
@@ -63,8 +61,7 @@ int fmain(int argc, char* argv[]) {
 		}
 
 		update(delta_time);
-		block.update();
-		render(window, block);
+		render(window);
 		
 
 	}

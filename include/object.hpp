@@ -8,6 +8,8 @@
 
 class Object {
 public:
+
+    Object() : active(true) {};
     
     void update();
 
@@ -21,6 +23,7 @@ private:
     SDL_Rect dst;
     std::string sprite;
     Hitbox hitbox;
+    bool active;
 };
 
 #endif
