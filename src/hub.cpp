@@ -12,6 +12,7 @@ void Hub::updateObjects(float& delta_time) {
 // Returns index of object in vector
 int Hub::addObject(Object* object) {
 	objects.push_back(object);
+    object->create();
 	return objects.size() - 1;
 }
 

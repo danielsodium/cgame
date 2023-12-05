@@ -10,10 +10,12 @@ void loadLevel(Hub& hub) {
     block->setDimensions(32, 32);
     block->setPosition(132,132);
     hub.addObject(block);
+    for (int i = 0; i < 20; i++) {
+        Wall* wall = new Wall(&hub);
+        wall->setSprite("grass");
+        wall->setDimensions(32, 32);
+        wall->setPosition(130+32*i,200);
+        hub.addObject(wall);
+    }
 
-    Wall* wall = new Wall(&hub);
-    wall->setSprite("grass");
-    wall->setDimensions(32, 32);
-    wall->setPosition(130,200);
-    hub.addObject(wall);
 }

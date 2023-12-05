@@ -23,6 +23,7 @@ public:
     Object* instancePlace(float x, float y, std::string type);
     bool boxCollision(float x, float y, float _w, float _h);
     
+    virtual void create() {};
     virtual void update(float& delta_time, std::unordered_map<int, bool>& keys) { return; }
     void move(float _x, float _y);
     void setPosition(float _x, float _y);
