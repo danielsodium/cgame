@@ -1,4 +1,11 @@
 #include "object.hpp"
+#include "hub.hpp"
+
+Object::Object(Hub* h) {
+    active = true;
+    hub = h;
+    type = "object";
+};
 
 void Object::setPosition(float _x, float _y) {
     x = _x;
@@ -18,27 +25,26 @@ void Object::move(float _x, float _y) {
 void Object::setDimensions(int _w, int _h) {
     dst.w = _w;
     dst.h = _h;
+    hitbox.w = _w;
+    hitbox.h = _h;
 }
 
 void Object::setSprite(std::string _name) {
     sprite = _name;
 } 
 
-void Object::update(float& delta_time, std::unordered_map<int, bool>& keys) {
-    
-    float speed = 150;
+bool Object::boxCollision(float _x, float _y, float _w, float _h) {
+    if (!(((_x > x + hitbox.x) && (_x < x + hitbox.x + hitbox.w)) ||
+        ((_x + _w > x + hitbox.x) && (_x + _w < x + hitbox.x + hitbox.w)))) {
+        return false;
+    }
+    if (!(((_y > y + hitbox.y) && (_y < y + hitbox.y + hitbox.h)) ||
+        ((_y + _h > y + hitbox.y) && (_y + _h < y + hitbox.y + hitbox.h)))) {
+        return false;
+    }
+    return true;
+}
 
-    
-    if (keys[119]) {
-        move(0, -speed*delta_time);
-    } 
-    if (keys[97]) {
-        move(-speed*delta_time, 0);
-    } 
-    if (keys[115]) {
-        move(0, speed*delta_time);
-    } 
-    if (keys[100]) {
-        move(speed*delta_time, 0);
-    } 
+Object* Object::instancePlace(float _x, float _y, std::string type) {
+    return hub->instancePlace(_x, _y, hitbox.w, hitbox.h, type, this);
 }

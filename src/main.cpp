@@ -6,15 +6,11 @@
 
 #include "constants.hpp"
 #include "RenderWindow.hpp"
+#include "hub.hpp"
 #include "sprite.hpp"
 #include "object.hpp"
 #include "loader.hpp"
 
-void render(RenderWindow& window) {
-	window.clear();
-	window.render();
-	window.display();
-}
 
 int main(int argc, char* argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO) > 0) {
@@ -24,17 +20,15 @@ int main(int argc, char* argv[]) {
 		std::cout << "STL_init has failed. Error: " << SDL_GetError() << std::endl;
 	
 	RenderWindow window("GAME v1.0", 1280, 720);
+    Hub hub(&window); 
 	
 	// Loading Textures and Sprites
+    hub.loadResources();
 
-	window.loadTexture("res/gfx/ground_grass_1.png");
-	window.createSprite("grass", 0, 0, 0, 32, 32);
-
-	loadLevel(window);
-	bool gameRunning = true;
-
+	loadLevel(hub);
 
 	SDL_Event event;
+	bool gameRunning = true;
 	int last_frame_time = 0; 
 
 	while (gameRunning)
@@ -43,9 +37,9 @@ int main(int argc, char* argv[]) {
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_KEYDOWN) 
-				window.keyDown(event.key.keysym.sym);
+				hub.keyDown(event.key.keysym.sym);
 			if (event.type == SDL_KEYUP) 
-				window.keyUp(event.key.keysym.sym);
+				hub.keyUp(event.key.keysym.sym);
 
 			if (event.type == SDL_QUIT)
 				gameRunning = false;
@@ -64,13 +58,11 @@ int main(int argc, char* argv[]) {
 			SDL_Delay(time_to_wait);
 		}
 
-		window.updateObjects(delta_time);
-		render(window);
-		
-
+		hub.updateObjects(delta_time);
+		hub.render();
 	}
 
-	window.cleanUp();
+	hub.cleanUp();
 	SDL_Quit();
 
 	return 0;

@@ -1,4 +1,4 @@
 
-#include "RenderWindow.hpp"
+#include "hub.hpp"
 
-void loadLevel(RenderWindow& window);
+void loadLevel(Hub& hub);
