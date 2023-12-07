@@ -48,3 +48,7 @@ bool Object::boxCollision(float _x, float _y, float _w, float _h) {
 Object* Object::instancePlace(float _x, float _y, std::string type) {
     return hub->instancePlace(_x, _y, hitbox.w, hitbox.h, type, this);
 }
+
+bool Object::tilePlace(float _x, float _y, std::string name) {
+    return hub->tilePlace(_x, _y, hitbox.w, hitbox.h, name);
+}

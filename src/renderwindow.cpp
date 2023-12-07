@@ -28,10 +28,11 @@ void RenderWindow::loadTexture(const std::string p_filePath)
 	textures.push_back(texture);
 }
 
-void RenderWindow::loadTextures(std::vector<std::string> filePaths) {
+int RenderWindow::loadTextures(std::vector<std::string> filePaths) {
     for(auto path : filePaths) {
 	    loadTexture(path.c_str());
     }
+    return filePaths.size();
 }
 
 
@@ -40,10 +41,10 @@ void RenderWindow::cleanUp()
 	SDL_DestroyWindow(window);
 }
 
-void RenderWindow::render(std::vector<std::pair<SDL_Rect*, Sprite*>> sprites) {
+void RenderWindow::render(std::vector<RenderBuffer>& sprites) {
     clear();
 	for (auto p : sprites) {
-		SDL_RenderCopy(renderer, textures[p.second->getTextureIndex()], p.second->getTexture(), p.first);
+		SDL_RenderCopy(renderer, textures[p.texture], p.src, &p.dst);
 	}
     display();
 }

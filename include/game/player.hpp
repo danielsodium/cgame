@@ -3,6 +3,7 @@
 
 #include "object.hpp"
 #include <iostream>
+#include <cmath>
 
 class Player : public Object {
 public:
@@ -10,7 +11,6 @@ public:
     std::string getType() {return "player";} 
 
     void create() {
-        jumped = false;
         vsp = 0;
         hsp = 0;
     }
@@ -19,16 +19,9 @@ public:
 
         hsp = 0;
         float speed = 250;
-        if (keys[119]) {
-            // Jump
-            //vsp += -speed*delta_time;
-            if (!jumped && instancePlace(x, y+1, "wall")) {
-                jumped = true;
-                vsp = -25;
-            }
-       } 
-        else {
-            jumped = false;
+
+        if (keys[119] && tilePlace(x, y+1, "walls")) {
+            vsp = -19;
         }
         if (keys[97]) {
             hsp += -speed*delta_time;
@@ -39,22 +32,23 @@ public:
         if (keys[100]) {
             hsp += speed*delta_time;
         } 
-        vsp += 2;
+        vsp += 1.5;
 
-        if (instancePlace(x+hsp, y, "wall")) {
-            float direction = signbit(hsp) ? (-1) : (1);
-            while (!instancePlace(x+direction, y, "wall")) {
+        if (tilePlace(x+hsp, y, "walls")) {
+            int direction = signbit(hsp) ? (-1) : (1);
+            while (!tilePlace(x+direction, y, "walls")) {
                 move(direction, 0);
             }
             hsp = 0;
         }
-        if (instancePlace(x, y+vsp, "wall")) {
-            float direction = signbit(vsp) ? (-1) : (1);
-            while (!instancePlace(x, y+direction, "wall")) {
+        if (tilePlace(x, y+vsp, "walls")) {
+            int direction = signbit(vsp) ? (-1) : (1);
+            while (!tilePlace(x, y+direction, "walls")) {
                 move(0, direction);
             }
             vsp = 0;
         }
+ 
         move(0, vsp);
         move(hsp, 0);
 
@@ -63,9 +57,8 @@ public:
     ~Player() {};
 
 private:
-    bool jumped;
     float vsp;
-    float hsp;
+    int hsp;
 };
 
 #endif

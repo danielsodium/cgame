@@ -21,6 +21,7 @@ public:
     bool isActive() { return active; }
 
     Object* instancePlace(float x, float y, std::string type);
+    bool tilePlace(float x, float y, std::string name);
     bool boxCollision(float x, float y, float _w, float _h);
     
     virtual void create() {};
@@ -33,7 +34,7 @@ public:
     virtual ~Object() {};
 
 protected:
-    float x, y;
+    int x, y;
     SDL_Rect dst;
     std::string sprite;
     Hitbox hitbox;
