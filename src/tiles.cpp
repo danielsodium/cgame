@@ -25,7 +25,7 @@ bool Tiles::boxCollision(float x, float y, float w, float h) {
         map[startX][endY] != 0 ||
         map[endX][endY] != 0) {
             return true;
-        }
+    }
 
     return false;
 

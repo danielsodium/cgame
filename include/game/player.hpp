@@ -33,14 +33,6 @@ public:
             hsp += speed*delta_time;
         } 
         vsp += 1.5;
-
-        if (tilePlace(x+hsp, y, "walls")) {
-            int direction = signbit(hsp) ? (-1) : (1);
-            while (!tilePlace(x+direction, y, "walls")) {
-                move(direction, 0);
-            }
-            hsp = 0;
-        }
         if (tilePlace(x, y+vsp, "walls")) {
             int direction = signbit(vsp) ? (-1) : (1);
             while (!tilePlace(x, y+direction, "walls")) {
@@ -48,6 +40,14 @@ public:
             }
             vsp = 0;
         }
+        if (tilePlace(x+hsp, y, "walls")) {
+            int direction = signbit(hsp) ? (-1) : (1);
+            while (!tilePlace(x+direction, y, "walls")) {
+                move(direction, 0);
+            }
+            hsp = 0;
+        }
+        
  
         move(0, vsp);
         move(hsp, 0);

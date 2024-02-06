@@ -68,9 +68,10 @@ void Hub::render() {
 }
 
 void Hub::loadResources() {
-    std::vector<std::string> paths = {"res/gfx/ground_grass_1.png"};
+    std::vector<std::string> paths = {"res/gfx/spritesheet.png"};
     window->loadTextures(paths);
-	createSprite("grass", 0, 0, 0, 32, 32);
+	createSprite("grass", 0, 96, 0, 32, 32);
+    createSprite("player", 0, 352, 0, 32, 32);
 }
 
 Object* Hub::instancePlace(float _x, float _y, float _w, float _h, std::string type, Object* self) {
